@@ -24,5 +24,5 @@ const createMarkup = galleryItems
 gallery.insertAdjacentHTML('beforeend', createMarkup);
 new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
-  captionDelay: 250,
+  captionDelay: 300,
 });
