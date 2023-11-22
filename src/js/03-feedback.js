@@ -1,33 +1,38 @@
 import throttle from 'lodash.throttle';
 const form = document.querySelector('.feedback-form');
+const emailArea = document.querySelector('input');
+const messageArea = document.querySelector('textarea');
+const submitBtn = document.querySelector('button');
+emailArea.addEventListener('input', throttle(savedForm, 500));
+messageArea.addEventListener('input', throttle(savedForm, 500));
+submitBtn.addEventListener('click', handleSubmit);
 form.style.margin = 'auto';
-const inputArea = document.querySelector('input');
-const textArea = document.querySelector('textarea');
-inputArea.addEventListener('input', throttle(savedForm, 500));
-textArea.addEventListener('input', throttle(savedForm, 500));
+
 function savedForm() {
   const formValue = {
-    email: inputArea.value,
-    message: textArea.value,
+    email: emailArea.value,
+    message: messageArea.value,
   };
   localStorage.setItem('feedback-form-state', JSON.stringify(formValue));
 }
+
 if (localStorage.getItem('feedback-form-state')) {
   const savedData = JSON.parse(localStorage.getItem('feedback-form-state'));
-  inputArea.value = savedData.email;
-  textArea.value = savedData.message;
+  emailArea.value = savedData.email;
+  messageArea.value = savedData.message;
 }
-const submitBtn = document.querySelector('button');
-submitBtn.addEventListener('click', handleSubmit);
+
 function handleSubmit(event) {
   event.preventDefault();
   const getValue = {
-    email: inputArea.value,
-    message: textArea.value,
+    email: emailArea.value,
+    message: messageArea.value,
   };
-
-  localStorage.removeItem('feedback-form-state');
-  inputArea.value = '';
-  textArea.value = '';
-  console.log(getValue);
+  if (getValue.email === '' || getValue.message === '') {
+    alert('Email and message fields must be filled');
+  } else {
+    localStorage.removeItem('feedback-form-state');
+    form.reset();
+    console.log(getValue);
+  }
 }

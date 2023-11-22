@@ -17,4 +17,3 @@ if (savedTime !== null) {
   player.setCurrentTime(savedTime);
 }
 player.on('timeupdate', onPlay);
-localStorage.clear();
